@@ -63,7 +63,7 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
     onNavigate('reader');
   };
 
-  const selectClass = `w-full appearance-none rounded-xl py-4 px-4 pr-10 text-base font-medium focus:outline-none focus:ring-2 transition-all bg-surface border border-line-strong text-ink focus:ring-inverse focus:border-inverse shadow-sm`;
+  const selectClass = `w-full appearance-none rounded-xl py-2 px-4 pr-10 text-base font-medium focus:outline-none focus:ring-2 transition-all bg-surface border border-line-strong text-ink focus:ring-inverse focus:border-inverse shadow-sm`;
 
   const labelClass = 'block text-sm font-semibold mb-2 text-ink';
 
@@ -113,7 +113,7 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
         {/* Tradução */}
         <div>
           <label className={labelClass}>
-            <span>🌐 Tradução</span>
+            <span>Tradução</span>
             {isLoading && (
               <span className="inline-flex items-center gap-1.5 ml-2 font-normal text-ink">
                 <Loader2 size={14} className="animate-spin" />
@@ -122,27 +122,21 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
             )}
           </label>
           <div className="relative">
-            <select
-              value={translation}
-              onChange={(e) => onTranslationChange(e.target.value)}
-              className={selectClass}
-            >
+            <select value={translation} onChange={(e) => onTranslationChange(e.target.value)} className={selectClass} >
               {TRANSLATIONS.map((t) => (
                 <option key={t.code} value={t.code}>
                   {t.name} ({t.code})
                 </option>
               ))}
             </select>
-            <ChevronDown
-              size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ink-subtle"
+            <ChevronDown size={18} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ink-subtle"
             />
           </div>
         </div>
 
         {/* Book */}
         <div>
-          <label className={labelClass}>📖 Livro</label>
+          <label className={labelClass}>Livro</label>
           <div className="relative">
             <select
               value={localSel.book}
@@ -173,7 +167,7 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
 
         {/* Chapter */}
         <div>
-          <label className={labelClass}>📑 Capítulo</label>
+          <label className={labelClass}>Capítulo</label>
           <div className="relative">
             <select
               value={localSel.chapter}
@@ -198,7 +192,7 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
         {/* Verse Range */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>🔢 Versículo Inicial</label>
+            <label className={labelClass}>Versículo Inicial</label>
             <div className="relative">
               <select
                 value={localSel.startVerse}
@@ -220,7 +214,7 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
             </div>
           </div>
           <div>
-            <label className={labelClass}>🔢 Versículo Final</label>
+            <label className={labelClass}>Versículo Final</label>
             <div className="relative">
               <select
                 value={localSel.endVerse}
@@ -245,7 +239,7 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
 
         {/* Preview Card */}
         <div
-          className="rounded-2xl p-5 bg-surface border border-line shadow-md"
+          className="rounded-2xl p-4 bg-surface border border-line shadow-md"
         >
           <p className="text-xs font-semibold uppercase tracking-widest mb-2 text-ink">
             Passagem Selecionada
@@ -262,11 +256,11 @@ const SelectionScreen: React.FC<SelectionScreenProps> = ({
       </div>
 
       {/* Start Button */}
-      <div className="px-5 pb-10 pt-4 bg-page border-t border-line">
+      <div className="px-5 py-3 pt-4 bg-page border-t border-line">
         <button
           onClick={handleStart}
           disabled={startVerses.length === 0 || isLoading}
-          className="w-full py-5 rounded-2xl font-bold text-xl flex items-center justify-center gap-3 transition-all duration-200 active:scale-95 disabled:opacity-40 shadow-xl bg-inverse text-inverse-ink hover:bg-inverse-hover"
+          className="w-full py-3 rounded-2xl font-bold text-xl flex items-center justify-center gap-3 transition-all duration-200 active:scale-95 disabled:opacity-40 shadow-xl bg-inverse text-inverse-ink hover:bg-inverse-hover"
         >
           <Play size={24} fill="currentColor" />
           {isLoading ? 'Carregando tradução…' : 'Começar'}
