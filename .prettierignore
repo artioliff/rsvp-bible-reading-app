@@ -1,0 +1,8 @@
+# Dados bíblicos — NUNCA reformatar (tamanho e integridade do fetch)
+data-src/
+public/data/
+
+# Gerados / terceiros
+dist/
+node_modules/
+android/

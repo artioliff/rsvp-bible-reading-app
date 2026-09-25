@@ -1,0 +1,263 @@
+import type { Book } from '../types/bible';
+
+// Dados amostrais embutidos (9 livros) — fallback offline usado pelo app
+// enquanto a Fase 2 (carregamento de public/data/*.json) não é implementada.
+// Fonte completa: data-src/*.json → convertida por scripts/convert-bible-data.mjs
+export const bibleBooks: Book[] = [
+  {
+    id: 1,
+    name: 'Gênesis',
+    abbreviation: 'Gn',
+    testament: 'AT',
+    chapters: [
+      {
+        chapter: 1,
+        verses: [
+          { verse: 1, text: 'No princípio criou Deus os céus e a terra.' },
+          { verse: 2, text: 'A terra, porém, estava sem forma e vazia; havia trevas sobre a face do abismo, e o Espírito de Deus pairava sobre a face das águas.' },
+          { verse: 3, text: 'E disse Deus: haja luz; e houve luz.' },
+          { verse: 4, text: 'Viu Deus que a luz era boa; e fez separação entre a luz e as trevas.' },
+          { verse: 5, text: 'E Deus chamou à luz dia, e às trevas noite. E foi a tarde e a manhã, o dia primeiro.' },
+          { verse: 6, text: 'E disse Deus: haja um firmamento no meio das águas, e haja separação entre águas e águas.' },
+          { verse: 7, text: 'E fez Deus o firmamento, e separou as águas que estavam debaixo do firmamento das que estavam sobre o firmamento; e assim se fez.' },
+          { verse: 8, text: 'E chamou Deus ao firmamento céu. E foi a tarde e a manhã, o dia segundo.' },
+          { verse: 9, text: 'E disse Deus: ajuntem-se as águas debaixo do céu num lugar, e apareça a parte seca; e assim se fez.' },
+          { verse: 10, text: 'E chamou Deus à parte seca terra, e ao ajuntamento das águas chamou mares; e viu Deus que era bom.' },
+        ],
+      },
+      {
+        chapter: 2,
+        verses: [
+          { verse: 1, text: 'Assim os céus e a terra foram acabados, e todo o seu exército.' },
+          { verse: 2, text: 'E, havendo Deus terminado no dia sétimo a sua obra, que tinha feito, descansou no sétimo dia de toda a sua obra que tinha feito.' },
+          { verse: 3, text: 'E abençoou Deus o dia sétimo, e o santificou; porque nele descansou de toda a sua obra que Deus tinha criado e feito.' },
+          { verse: 4, text: 'Estas são as origens dos céus e da terra, quando foram criados, no dia em que o Senhor Deus fez a terra e os céus.' },
+          { verse: 5, text: 'E ainda não havia nenhum arbusto do campo na terra, e ainda não brotava nenhuma erva do campo; porque o Senhor Deus não tinha feito chover sobre a terra, e não havia homem para lavrar o solo.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Êxodo',
+    abbreviation: 'Ex',
+    testament: 'AT',
+    chapters: [
+      {
+        chapter: 1,
+        verses: [
+          { verse: 1, text: 'Estes são os nomes dos filhos de Israel que entraram no Egito com Jacó; cada um entrou com a sua família:' },
+          { verse: 2, text: 'Rúben, Simeão, Levi e Judá;' },
+          { verse: 3, text: 'Issacar, Zebulom e Benjamim;' },
+          { verse: 4, text: 'Dã e Naftali; Gade e Aser.' },
+          { verse: 5, text: 'E todas as almas que saíram dos lombos de Jacó eram setenta; e José já estava no Egito.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 19,
+    name: 'Salmos',
+    abbreviation: 'Sl',
+    testament: 'AT',
+    chapters: [
+      {
+        chapter: 23,
+        verses: [
+          { verse: 1, text: 'O Senhor é o meu pastor; nada me faltará.' },
+          { verse: 2, text: 'Ele me faz repousar em pastos verdejantes. Leva-me para junto das águas de descanso.' },
+          { verse: 3, text: 'Refrigera a minha alma; guia-me pelas veredas da justiça por amor do seu nome.' },
+          { verse: 4, text: 'Ainda que eu andasse pelo vale da sombra da morte, não temeria mal algum, porque tu estás comigo; o teu cajado e o teu bordão me consolam.' },
+          { verse: 5, text: 'Preparas uma mesa perante mim na presença dos meus adversários; unges a minha cabeça com óleo; o meu cálice transborda.' },
+          { verse: 6, text: 'Bondade e misericórdia certamente me seguirão todos os dias da minha vida; e habitarei na casa do Senhor por longos dias.' },
+        ],
+      },
+      {
+        chapter: 91,
+        verses: [
+          { verse: 1, text: 'Aquele que habita no esconderijo do Altíssimo, à sombra do Onipotente descansará.' },
+          { verse: 2, text: 'Direi do Senhor: Ele é o meu Deus, o meu refúgio, a minha fortaleza, e nele confiarei.' },
+          { verse: 3, text: 'Porque ele te livrará do laço do passarinheiro, e da peste perniciosa.' },
+          { verse: 4, text: 'Ele te cobrirá com as suas penas, e debaixo das suas asas te refugiarás; a sua verdade é escudo e broquel.' },
+          { verse: 5, text: 'Não te assombrarás com o terror noturno, nem com a seta que voa de dia.' },
+          { verse: 6, text: 'Nem com a peste que anda nas trevas, nem com a destruição que assola ao meio-dia.' },
+          { verse: 7, text: 'Mil cairão ao teu lado, e dez mil à tua direita, mas não chegará a ti.' },
+          { verse: 8, text: 'Somente com os teus olhos contemplarás, e verás a recompensa dos ímpios.' },
+          { verse: 9, text: 'Porque tu, Senhor, és o meu refúgio; ao Altíssimo fizeste a tua habitação.' },
+          { verse: 10, text: 'Nenhum mal te sucederá, nem praga alguma chegará à tua tenda.' },
+          { verse: 11, text: 'Porque ele dará ordens aos seus anjos a teu respeito, para te guardarem em todos os teus caminhos.' },
+          { verse: 12, text: 'Eles te sustentarão nas suas mãos, para que não escorregues o pé em alguma pedra.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 20,
+    name: 'Provérbios',
+    abbreviation: 'Pv',
+    testament: 'AT',
+    chapters: [
+      {
+        chapter: 3,
+        verses: [
+          { verse: 1, text: 'Filho meu, não te esqueças dos meus ensinamentos, e o teu coração guarde os meus mandamentos.' },
+          { verse: 2, text: 'Porque eles aumentarão os teus dias e te acrescentarão anos de vida e paz.' },
+          { verse: 3, text: 'A benignidade e a fidelidade não te abandonem; ata-as ao teu pescoço, escreve-as na tábua do teu coração.' },
+          { verse: 4, text: 'E assim acharás graça e boa reputação aos olhos de Deus e dos homens.' },
+          { verse: 5, text: 'Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento.' },
+          { verse: 6, text: 'Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 40,
+    name: 'Mateus',
+    abbreviation: 'Mt',
+    testament: 'NT',
+    chapters: [
+      {
+        chapter: 5,
+        verses: [
+          { verse: 1, text: 'Vendo Jesus as multidões, subiu ao monte, e, assentando-se, os seus discípulos se aproximaram dele.' },
+          { verse: 2, text: 'E, abrindo ele a boca, os ensinava, dizendo:' },
+          { verse: 3, text: 'Bem-aventurados os pobres em espírito, porque deles é o reino dos céus.' },
+          { verse: 4, text: 'Bem-aventurados os que choram, porque eles serão consolados.' },
+          { verse: 5, text: 'Bem-aventurados os mansos, porque eles herdarão a terra.' },
+          { verse: 6, text: 'Bem-aventurados os que têm fome e sede de justiça, porque eles serão fartos.' },
+          { verse: 7, text: 'Bem-aventurados os misericordiosos, porque eles alcançarão misericórdia.' },
+          { verse: 8, text: 'Bem-aventurados os limpos de coração, porque eles verão a Deus.' },
+          { verse: 9, text: 'Bem-aventurados os pacificadores, porque eles serão chamados filhos de Deus.' },
+          { verse: 10, text: 'Bem-aventurados os que sofrem perseguição por causa da justiça, porque deles é o reino dos céus.' },
+          { verse: 11, text: 'Bem-aventurados sois vós quando vos injuriarem e perseguirem, e, mentindo, disserem todo mal contra vós por minha causa.' },
+          { verse: 12, text: 'Regozijai-vos e alegrai-vos, porque é grande o vosso galardão nos céus; porque assim perseguiram os profetas que foram antes de vós.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 43,
+    name: 'João',
+    abbreviation: 'Jo',
+    testament: 'NT',
+    chapters: [
+      {
+        chapter: 1,
+        verses: [
+          { verse: 1, text: 'No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus.' },
+          { verse: 2, text: 'Ele estava no princípio com Deus.' },
+          { verse: 3, text: 'Todas as coisas foram feitas por intermédio dele, e, sem ele, nada do que foi feito se fez.' },
+          { verse: 4, text: 'Nele estava a vida, e a vida era a luz dos homens.' },
+          { verse: 5, text: 'E a luz resplandece nas trevas, e as trevas não a compreenderam.' },
+          { verse: 6, text: 'Houve um homem enviado por Deus, cujo nome era João.' },
+          { verse: 7, text: 'Este veio como testemunha para que testificasse acerca da luz, a fim de todos crer por meio dele.' },
+          { verse: 8, text: 'Não era ele a luz, mas veio para testificar acerca da luz.' },
+          { verse: 9, text: 'Havia a luz verdadeira, que, chegando ao mundo, ilumina todo homem.' },
+          { verse: 10, text: 'Ele estava no mundo, e o mundo foi feito por meio dele, mas o mundo não o conheceu.' },
+        ],
+      },
+      {
+        chapter: 3,
+        verses: [
+          { verse: 1, text: 'Ora, havia entre os fariseus um homem chamado Nicodemos, um dos principais dos judeus.' },
+          { verse: 2, text: 'Este foi ter com Jesus de noite e disse-lhe: Rabi, sabemos que és Mestre vindo da parte de Deus; porque ninguém pode fazer estes sinais que tu fazes, se Deus não estiver com ele.' },
+          { verse: 3, text: 'Jesus respondeu e disse-lhe: Em verdade, em verdade te digo que, se alguém não nascer de novo, não pode ver o reino de Deus.' },
+          { verse: 4, text: 'Nicodemos lhe disse: Como pode um homem nascer, sendo velho? Pode, porventura, entrar segunda vez no ventre de sua mãe e nascer?' },
+          { verse: 5, text: 'Jesus respondeu: Em verdade, em verdade te digo que, se alguém não nascer da água e do Espírito, não pode entrar no reino de Deus.' },
+          { verse: 6, text: 'O que é nascido da carne é carne; e o que é nascido do Espírito é espírito.' },
+          { verse: 7, text: 'Não te admires de eu te ter dito: Necessário vos é nascer de novo.' },
+          { verse: 8, text: 'O vento sopra onde quer, e ouves a sua voz, mas não sabes de onde vem, nem para onde vai; assim é todo aquele que é nascido do Espírito.' },
+          { verse: 9, text: 'Nicodemos respondeu e disse-lhe: Como podem ser essas coisas?' },
+          { verse: 10, text: 'Jesus respondeu e disse-lhe: És tu o mestre de Israel e não sabes estas coisas?' },
+          { verse: 11, text: 'Em verdade, em verdade te digo que nós falamos o que sabemos, e testificamos o que vimos; mas vós não recebeis o nosso testemunho.' },
+          { verse: 12, text: 'Se vos disse as coisas terrestres e não credes, como crereis se vos disser as celestiais?' },
+          { verse: 13, text: 'Ninguém subiu ao céu, senão o que desceu do céu, o Filho do Homem, que está no céu.' },
+          { verse: 14, text: 'E, como Moisés levantou a serpente no deserto, assim importa que o Filho do Homem seja levantado.' },
+          { verse: 15, text: 'Para que todo aquele que nele crê não pereça, mas tenha a vida eterna.' },
+          { verse: 16, text: 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.' },
+          { verse: 17, text: 'Porque Deus enviou o seu Filho ao mundo, não para que condenasse o mundo, mas para que o mundo fosse salvo por ele.' },
+          { verse: 18, text: 'Quem crê nele não é condenado; mas quem não crê já está condenado, porquanto não creu no nome do unigênito Filho de Deus.' },
+          { verse: 19, text: 'E o julgamento é este: a luz veio ao mundo, e os homens amaram mais as trevas do que a luz, porque as suas obras eram más.' },
+          { verse: 20, text: 'Porque todo aquele que pratica o mal odeia a luz, e não vem para a luz, para que as suas obras não sejam reprovadas.' },
+          { verse: 21, text: 'Mas quem pratica a verdade vem para a luz, a fim de que as suas obras sejam manifestas, porque são feitas em Deus.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 45,
+    name: 'Romanos',
+    abbreviation: 'Rm',
+    testament: 'NT',
+    chapters: [
+      {
+        chapter: 8,
+        verses: [
+          { verse: 1, text: 'Portanto, agora nenhuma condenação há para os que estão em Cristo Jesus, que não andam segundo a carne, mas segundo o Espírito.' },
+          { verse: 2, text: 'Porque a lei do Espírito de vida, em Cristo Jesus, me livrou da lei do pecado e da morte.' },
+          { verse: 3, text: 'Porque o que era impossível à lei, visto como estava enferma pela carne, Deus, enviando o seu Filho em semelhança da carne do pecado, pelo pecado condenou o pecado na carne.' },
+          { verse: 4, text: 'Para que a justiça da lei se cumprisse em nós, que não andamos segundo a carne, mas segundo o Espírito.' },
+          { verse: 5, text: 'Porque os que são segundo a carne pensam nas coisas da carne; mas os que são segundo o Espírito, nas coisas do Espírito.' },
+          { verse: 6, text: 'Porque o pendor da carne é morte; mas o do Espírito é vida e paz.' },
+          { verse: 7, text: 'Porque o pendor da carne é inimizade contra Deus, pois não está sujeito à lei de Deus, nem, em verdade, o pode estar.' },
+          { verse: 8, text: 'De forma que os que estão na carne não podem agradar a Deus.' },
+          { verse: 9, text: 'Vós, porém, não estais na carne, mas no Espírito, se é que o Espírito de Deus habita em vós. Mas, se alguém não tem o Espírito de Cristo, esse tal não é dele.' },
+          { verse: 10, text: 'Mas, se Cristo está em vós, o corpo, na verdade, está morto por causa do pecado, mas o Espírito é vida por causa da justiça.' },
+          { verse: 28, text: 'E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus, daqueles que são chamados segundo o seu propósito.' },
+          { verse: 38, text: 'Porque estou persuadido de que nem a morte, nem a vida, nem os anjos, nem os principados, nem as potestades, nem o presente, nem o porvir.' },
+          { verse: 39, text: 'Nem a altura, nem a profundidade, nem alguma outra criatura nos poderá separar do amor de Deus, que está em Cristo Jesus nosso Senhor.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 49,
+    name: 'Efésios',
+    abbreviation: 'Ef',
+    testament: 'NT',
+    chapters: [
+      {
+        chapter: 6,
+        verses: [
+          { verse: 10, text: 'Quanto ao mais, irmãos meus, fortalecei-vos no Senhor e na força do seu poder.' },
+          { verse: 11, text: 'Revesti-vos de toda a armadura de Deus, para que possais estar firmes contra as astutas ciladas do diabo.' },
+          { verse: 12, text: 'Porque não temos que lutar contra a carne e o sangue, mas contra os principados, contra as potestades, contra os príncipes das trevas desta era, contra as hostes espirituais da maldade nos lugares celestiais.' },
+          { verse: 13, text: 'Portanto, tomai toda a armadura de Deus, para que possais resistir no dia mau e, havendo feito tudo, ficar firmes.' },
+          { verse: 14, text: 'Estai, pois, firmes, tendo cingidos os vossos lombos com a verdade, e vestida a couraça da justiça.' },
+          { verse: 15, text: 'E os pés calçados com a preparação do evangelho da paz.' },
+          { verse: 16, text: 'Além de tudo isso, lançai mão do escudo da fé, com o qual podereis apagar todos os dardos inflamados do maligno.' },
+          { verse: 17, text: 'Tomai também o capacete da salvação e a espada do Espírito, que é a palavra de Deus.' },
+          { verse: 18, text: 'Orando em todo tempo com toda oração e súplica no Espírito, e vigiando nisto com toda perseverança e súplica por todos os santos.' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 66,
+    name: 'Apocalipse',
+    abbreviation: 'Ap',
+    testament: 'NT',
+    chapters: [
+      {
+        chapter: 1,
+        verses: [
+          { verse: 1, text: 'Revelação de Jesus Cristo, que Deus lhe deu para mostrar aos seus servos as coisas que devem acontecer em breve; e pelo seu anjo as enviou e as notificou ao seu servo João.' },
+          { verse: 2, text: 'Que testificou a palavra de Deus e o testemunho de Jesus Cristo, e tudo o que viu.' },
+          { verse: 3, text: 'Bem-aventurado aquele que lê, e os que ouvem as palavras desta profecia, e guardam as coisas que nela estão escritas; porque o tempo está próximo.' },
+          { verse: 4, text: 'João, às sete igrejas que estão na Ásia: Graça e paz da parte daquele que é, que era e que há de vir, e da parte dos sete Espíritos que estão diante do seu trono.' },
+          { verse: 5, text: 'E da parte de Jesus Cristo, que é a fiel testemunha, o primogênito dos mortos e o príncipe dos reis da terra. Aquele que nos amou e, pelo seu sangue, nos lavou dos nossos pecados.' },
+        ],
+      },
+      {
+        chapter: 21,
+        verses: [
+          { verse: 1, text: 'Vi um novo céu e uma nova terra, pois o primeiro céu e a primeira terra passaram, e o mar já não existia.' },
+          { verse: 2, text: 'E eu, João, vi a santa cidade, a nova Jerusalém, que descia do céu da parte de Deus, adornada como uma esposa ataviada para o seu esposo.' },
+          { verse: 3, text: 'E ouvi uma grande voz do céu, dizendo: Eis o tabernáculo de Deus com os homens, pois com eles habitará, e eles serão o seu povo, e o mesmo Deus estará com eles e será o seu Deus.' },
+          { verse: 4, text: 'E Deus limpará de seus olhos toda lágrima, e não haverá mais morte, nem pranto, nem clamor, nem dor; porque as primeiras coisas já passaram.' },
+          { verse: 5, text: 'E o que estava assentado no trono disse: Eis que faço novas todas as coisas. E disse-me: Escreve, porque estas palavras são fiéis e verdadeiras.' },
+        ],
+      },
+    ],
+  },
+];

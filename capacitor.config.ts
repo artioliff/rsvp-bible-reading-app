@@ -4,7 +4,7 @@ const config: CapacitorConfig = {
   appId: 'com.rsvpread.biblerapida',
   appName: 'Bíblia Rápida',
   webDir: 'dist',
-  backgroundColor: '#0f172a',
+  backgroundColor: '#000000',
 };
 
 export default config;

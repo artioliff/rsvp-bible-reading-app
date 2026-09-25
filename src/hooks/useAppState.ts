@@ -1,9 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import useLocalStorage from './useLocalStorage';
+import { DEFAULT_SETTINGS } from '../constants/settings';
+import { bibleBooks, DEFAULT_TRANSLATION_CODE, loadTranslation } from '../data/bibleData';
+import type { Book } from '../types/bible';
 import {
   AppScreen,
   AppSettings,
-  DEFAULT_SETTINGS,
   FavoriteVerse,
   ReadingHistoryEntry,
   ReadingPosition,
@@ -19,6 +21,29 @@ export interface SelectionState {
 function useAppState() {
   const [screen, setScreen] = useState<AppScreen>('home');
   const [settings, setSettings] = useLocalStorage<AppSettings>('lbr_settings', DEFAULT_SETTINGS);
+  // Migração: settings antigos podem não ter o campo `translation` → default (ARA)
+  const translation = settings.translation ?? DEFAULT_TRANSLATION_CODE;
+
+  // Livros da tradução ativa — inicia com a amostra embutida (nunca vazio)
+  const [books, setBooks] = useState<Book[]>(bibleBooks);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFallback, setIsFallback] = useState(false);
+
+  // Recarrega quando a tradução muda; guarda de corrida descarta respostas velhas
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    loadTranslation(translation).then((result) => {
+      if (cancelled) return;
+      setBooks(result.books);
+      setIsFallback(result.isFallback);
+      setIsLoading(false);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [translation]);
+
   const [lastPosition, setLastPosition] = useLocalStorage<ReadingPosition | null>(
     'lbr_last_position',
     null
@@ -39,6 +64,11 @@ function useAppState() {
       setSettings((prev) => ({ ...prev, ...partial }));
     },
     [setSettings]
+  );
+
+  const setTranslation = useCallback(
+    (code: string) => updateSettings({ translation: code }),
+    [updateSettings]
   );
 
   const savePosition = useCallback(
@@ -99,6 +129,11 @@ function useAppState() {
     navigate,
     settings,
     updateSettings,
+    translation,
+    setTranslation,
+    books,
+    isLoading,
+    isFallback,
     lastPosition,
     savePosition,
     favorites,

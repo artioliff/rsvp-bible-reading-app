@@ -1,4 +1,5 @@
-const CACHE_NAME = 'lbr-v1';
+// v2: dados bíblicos em /data/*.json passam a ser cacheados no 1º acesso (Fase 5)
+const CACHE_NAME = 'lbr-v2';
 const urlsToCache = [
   '/',
   '/index.html',

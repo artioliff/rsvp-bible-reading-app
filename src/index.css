@@ -1,37 +1,162 @@
 @import "tailwindcss";
 
-/* Custom scrollbar */
-* {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
+/* =========================================================================
+   PALETA DE CORES — única fonte de valores de cor do app
+   Regra: nenhum valor de cor (hex, rgb/rgba, gradiente) em arquivos .tsx.
+   Ver docs/paleta-de-cores.md
+
+   Tema padrão = dark (definido no bloco @theme).
+   O tema claro sobrescreve as MESMAS variáveis em :root[data-theme='light'],
+   que é definido por App.tsx em document.documentElement.dataset.theme.
+   ========================================================================= */
+
+@theme static {
+  /* --- página e texto --- */
+  --color-page: #0a0a0a;       /* Preto neutro profundo */
+  --color-ink: #fafafa;        /* Branco suave (neutral-50) */
+  --color-ink-muted: #a3a3a3;  /* Neutral-400 */
+  --color-ink-subtle: #737373; /* Neutral-500 */
+  --color-ink-faint: #525252;  /* Neutral-600 */
+  --color-ink-hover: #f5f5f5;  /* Neutral-100 */
+
+  /* --- superfícies --- */
+  --color-surface: #121212;        /* Superfície neutra escura */
+  --color-surface-subtle: #0a0a0a; /* Superfície de fundo base */
+  --color-surface-hover: #262626;  /* Neutral-800 */
+  --color-surface-pressed: #121212;
+  --color-surface-translucent: rgba(18, 18, 18, 0.85);
+  --color-surface-topbar: #0a0a0a;
+  --color-surface-bar: #0a0a0a;
+  --color-surface-border: #262626;
+  --color-overlay: #0a0a0a;
+
+  /* --- bordas --- */
+  --color-line: #262626;         /* Neutral-800 */
+  --color-line-strong: #404040;  /* Neutral-700 */
+  --color-line-hover: #737373;   /* Neutral-500 */
+
+  /* --- superfície invertida (cards da Home e botões primários) --- */
+  --color-inverse: #fafafa;
+  --color-inverse-ink: #0a0a0a;
+  --color-inverse-ink-dim: rgba(10, 10, 10, 0.75);
+  --color-inverse-hover: #e5e5e5;
+
+  /* --- foco e sliders --- */
+  --color-focus-ring: #fafafa;
+  --color-slider-fill: #fafafa;
+  --color-slider-track: #404040;
+  --color-slider-thumb: #fafafa;
+  --color-slider-thumb-border: #121212;
+
+  /* --- marca (independente do tema) --- */
+  --color-brand-from: #262626; /* Neutral-800 (topo do gradiente) */
+  --color-brand-to: #0a0a0a;   /* Preto profundo (base do gradiente) */
+  --color-on-brand: #fafafa;   /* Texto/ícone claro sobre o gradiente da marca */
+
+  /* --- Spritz --- */
+  --color-spritz-focal: #ef4444; /* Vermelho padrão para o ponto focal de leitura */
+  --color-spritz-guide: rgba(239, 68, 68, 0.25);
+  --color-spritz-dot: rgba(239, 68, 68, 0.5);
 }
 
-/* Speed slider custom styles */
-.speed-slider::-webkit-slider-thumb {
+/* --- Tema claro: sobrescreve os tokens dependentes de tema --- */
+:root[data-theme="light"] {
+  --color-page: #ffffff;          /* Branco puro */
+  --color-ink: #0a0a0a;          /* Preto neutro profundo */
+  --color-ink-muted: #737373;    /* Neutral-500 */
+  --color-ink-subtle: #a3a3a3;   /* Neutral-400 */
+  --color-ink-faint: #d4d4d4;    /* Neutral-300 */
+  --color-ink-hover: #262626;    /* Neutral-800 */
+
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fafafa;
+  --color-surface-hover: #f5f5f5;
+  --color-surface-pressed: #f5f5f5;
+  --color-surface-translucent: rgba(255, 255, 255, 0.85);
+  --color-surface-topbar: rgba(255, 255, 255, 0.92);
+  --color-surface-bar: rgba(255, 255, 255, 0.96);
+  --color-surface-border: #e5e5e5;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+
+  --color-line: #e5e5e5;         /* Neutral-200 */
+  --color-line-strong: #d4d4d4;  /* Neutral-300 */
+  --color-line-hover: #a3a3a3;   /* Neutral-400 */
+
+  --color-inverse: #0a0a0a;
+  --color-inverse-ink: #fafafa;
+  --color-inverse-ink-dim: rgba(250, 250, 250, 0.8);
+  --color-inverse-hover: #262626;
+
+  --color-focus-ring: #0a0a0a;
+  --color-slider-fill: #0a0a0a;
+  --color-slider-track: #e5e5e5;
+  --color-slider-thumb: #0a0a0a;
+  --color-slider-thumb-border: #ffffff;
+
+  --color-spritz-guide: rgba(239, 68, 68, 0.2);
+}
+
+/* =========================================================================
+   Regras utilitárias (não geradas pelo Tailwind)
+   ========================================================================= */
+
+/* Página — acompanha o tema via --color-page */
+body {
+  background-color: var(--color-page);
+  overflow-x: hidden;
+}
+
+/* Gradiente da marca (logo da Home e da tela de seleção) */
+.brand-gradient {
+  background-image: linear-gradient(to bottom right, var(--color-brand-from), var(--color-brand-to));
+}
+
+/* Sombra dos cards da Home */
+.shadow-card {
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sliders — a porcentagem preenchida vem de --progress (definida no componente) */
+.speed-slider,
+.seek-slider {
+  background: linear-gradient(
+    to right,
+    var(--color-slider-fill) 0%,
+    var(--color-slider-fill) var(--progress, 0%),
+    var(--color-slider-track) var(--progress, 0%),
+    var(--color-slider-track) 100%
+  );
+}
+
+/* Slider thumb */
+.speed-slider::-webkit-slider-thumb,
+.seek-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #f59e0b;
+  background: var(--color-slider-thumb);
   cursor: pointer;
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
+  border: 3px solid var(--color-slider-thumb-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   transition: transform 0.1s ease;
 }
 
-.speed-slider::-webkit-slider-thumb:active {
-  transform: scale(1.2);
+.speed-slider::-webkit-slider-thumb:active,
+.seek-slider::-webkit-slider-thumb:active {
+  transform: scale(1.15);
 }
 
-.speed-slider::-moz-range-thumb {
+.speed-slider::-moz-range-thumb,
+.seek-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #f59e0b;
+  background: var(--color-slider-thumb);
   cursor: pointer;
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
+  border: 3px solid var(--color-slider-thumb-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* Word flash animation */
@@ -61,7 +186,7 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -69,18 +194,18 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 2px;
+  background: var(--color-ink-muted);
+  border-radius: 3px;
 }
 
 /* Focus visible styles */
 button:focus-visible {
-  outline: 2px solid #f59e0b;
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
 select:focus-visible {
-  outline: 2px solid #f59e0b;
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -88,12 +213,6 @@ select:focus-visible {
 .no-select {
   user-select: none;
   -webkit-user-select: none;
-}
-
-/* Body default dark */
-body {
-  background-color: #0f172a;
-  overflow-x: hidden;
 }
 
 /* Smooth transitions */

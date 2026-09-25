@@ -17,7 +17,7 @@ Aplicação PWA para ler a Bíblia palavra por palavra usando a técnica **RSVP*
 - **React 19** + **Vite 7** + **Tailwind CSS 4**
 - **Capacitor** para gerar APK (Android)
 - **vite-plugin-singlefile** — bundler em único arquivo HTML para PWA
-- Bible data amostral (9 livros) — estruturado para futura API
+- Dados bíblicos: 18 traduções completas (66 livros) servidas de `public/data/`
 
 ## Como usar (Web/PWA)
 
@@ -51,8 +51,57 @@ O APK será gerado em `android/app/build/outputs/apk/debug/app-debug.apk`.
 | `npm run dev` | Servidor de desenvolvimento Vite |
 | `npm run build` | Build de produção (index.html + assets inline) |
 | `npm run typecheck` | Verificação estática com TSC |
+| `npm run convert:data` | Converte `data-src/*.json` → `public/data/*.json` |
 | `npm run sync:android` | Build + sincronização do Android |
 | `npm run apk` | Gera o APK debug para Android |
+
+## Estrutura do projeto
+
+```
+├── data-src\                  # Fonte bruta das 18 traduções (formato [{abbrev, name, chapters}])
+├── docs\                      # Regras de negócio (.md) — ver docs/README.md
+├── scripts\
+│   └── convert-bible-data.mjs # data-src → public/data (formato {id, name, testament, chapters, verses})
+├── public\
+│   ├── data\                  # JSONs convertidos (gerado — não editar na mão)
+│   ├── manifest.json / sw.js  # PWA
+├── src\
+│   ├── types\                 # bible.ts (domínio) + app.ts (estado) + index.ts (barrel)
+│   ├── constants\             # settings.ts (SPEED_OPTIONS, DEFAULT_SETTINGS)
+│   ├── data\                  # Domínio bíblico
+│   │   ├── bibleData.ts       # helpers de consulta (Fase 2: loadTranslation)
+│   │   └── sampleData.ts      # amostra embutida (fallback offline)
+│   ├── components\
+│   │   ├── screens\           # HomeScreen, SelectionScreen, ReaderScreen
+│   │   ├── reader\            # SpeedControl, SpritzWord
+│   │   └── panels\            # FavoritesPanel, HistoryPanel
+│   ├── hooks\                 # useAppState, useRSVP, useLocalStorage
+│   └── utils\                 # cn.ts
+```
+
+### Documentação
+
+Regras de negócio ficam em [`docs/`](./docs/README.md) — um arquivo `.md` por regra,
+com status, arquivos envolvidos e critérios de aceite.
+
+- [Leitura RSVP](./docs/leitura-rsvp.md)
+- [Seleção de passagem](./docs/selecao-de-passage.md)
+- [Traduções e dados](./docs/traducoes-e-dados.md)
+- [Navegação de capítulos no Reader](./docs/navegacao-de-capitulos.md)
+- [Configurações e tema](./docs/configuracoes-e-tema.md)
+- [Favoritos](./docs/favoritos.md)
+- [Histórico e posição de leitura](./docs/historico-e-posicao.md)
+- [Paleta de cores](./docs/paleta-de-cores.md)
+
+### Fluxo de dados bíblicos
+
+1. `data-src/*.json` — fonte bruta versionada (não é importada por código nenhum)
+2. `npm run convert:data` — valida (capítulos canônicos, numeração 1-based) e gera `public/data/*.json`
+3. `public/data/*.json` é servido estaticamente pelo Vite e cacheado pelo Service Worker
+
+> ⚠️ **Não reformatar** os JSONs de `data-src/` e `public/data/` (há `.prettierignore` e
+> `.editorconfig` protegendo). Reindentar um arquivo de 4,5 MB infla ~60% o tamanho do fetch
+> e polui o git.
 
 ## `.gitignore`
 
@@ -60,7 +109,6 @@ O repositório já inclui `.gitignore` para excluir:
 
 - `node_modules/`
 - `dist/`
-- `package-lock.json`
 - arquivos de log
 
 ## Licença

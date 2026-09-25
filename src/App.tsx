@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import useAppState from './hooks/useAppState';
-import HomeScreen from './components/HomeScreen';
-import SelectionScreen from './components/SelectionScreen';
-import ReaderScreen from './components/ReaderScreen';
+import HomeScreen from './components/screens/HomeScreen';
+import SelectionScreen from './components/screens/SelectionScreen';
+import ReaderScreen from './components/screens/ReaderScreen';
 
 function App() {
   const {
@@ -21,12 +21,17 @@ function App() {
     clearHistory,
     selection,
     setSelection,
+    books,
+    translation,
+    setTranslation,
+    isLoading,
+    isFallback,
   } = useAppState();
 
-  // Update body background based on theme
+  // Tema em todas as telas — define apenas o ATRIBUTO em <html data-theme="…">;
+  // todos os valores de cor vivem em src/index.css (docs/paleta-de-cores.md)
   useEffect(() => {
-    document.body.style.backgroundColor =
-      settings.theme === 'dark' ? '#0f172a' : '#fffbeb';
+    document.documentElement.dataset.theme = settings.theme;
   }, [settings.theme]);
 
   const handleToggleTheme = () => {
@@ -39,10 +44,10 @@ function App() {
         <HomeScreen
           onNavigate={navigate}
           lastPosition={lastPosition}
-          theme={settings.theme}
           onToggleTheme={handleToggleTheme}
           historyCount={history.length}
           favoritesCount={favorites.length}
+          translation={translation}
         />
       )}
 
@@ -51,14 +56,22 @@ function App() {
           onNavigate={navigate}
           selection={selection}
           onSelectionChange={setSelection}
-          theme={settings.theme}
+          books={books}
+          translation={translation}
+          onTranslationChange={setTranslation}
+          isLoading={isLoading}
+          isFallback={isFallback}
         />
       )}
 
       {screen === 'reader' && (
         <ReaderScreen
+          // Remonta ao trocar capítulo/livro: reseta o índice do RSVP,
+          // a tela "Leitura Concluída" e a sessão de histórico
+          key={`${selection.book}_${selection.chapter}`}
           onNavigate={navigate}
           selection={selection}
+          onSelectionChange={setSelection}
           settings={settings}
           onSettingsChange={updateSettings}
           lastPosition={lastPosition}
@@ -70,6 +83,7 @@ function App() {
           history={history}
           onAddHistory={addHistory}
           onClearHistory={clearHistory}
+          books={books}
         />
       )}
     </div>
