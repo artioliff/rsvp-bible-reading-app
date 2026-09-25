@@ -128,6 +128,65 @@ body {
   );
 }
 
+/* Barra de progresso que também faz seek — thumb aparece só no hover/toque */
+.progress-seek {
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--color-slider-fill) 0%,
+    var(--color-slider-fill) var(--progress, 0%),
+    var(--color-slider-track) var(--progress, 0%),
+    var(--color-slider-track) 100%
+  );
+  border-radius: 9999px;
+}
+
+.progress-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-slider-thumb);
+  cursor: pointer;
+  border: 3px solid var(--color-slider-thumb-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.progress-seek:hover::-webkit-slider-thumb,
+.progress-seek:active::-webkit-slider-thumb,
+.progress-seek:focus-visible::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+.progress-seek:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.progress-seek::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-slider-thumb);
+  cursor: pointer;
+  border: 3px solid var(--color-slider-thumb-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.progress-seek:hover::-moz-range-thumb,
+.progress-seek:active::-moz-range-thumb,
+.progress-seek:focus-visible::-moz-range-thumb {
+  opacity: 1;
+}
+
+.progress-seek:active::-moz-range-thumb {
+  transform: scale(1.15);
+}
+
 /* Slider thumb */
 .speed-slider::-webkit-slider-thumb,
 .seek-slider::-webkit-slider-thumb {

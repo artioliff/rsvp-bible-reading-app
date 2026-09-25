@@ -175,6 +175,20 @@ const ReaderScreen: React.FC<ReaderScreenProps> = ({
   const isCurrentFavorite = isFavorite(selection.book, selection.chapter, currentVerse);
 
   // ---------------------------------------------------------------------------
+  // Layout fixo da palavra (Word Display Area)
+  // A palavra fica centralizada fora do fluxo; o balão do versículo é quem
+  // cresce para baixo. Estes valores reservam o espaço abaixo da palavra.
+  // ---------------------------------------------------------------------------
+  const wordFontSize = settings.fontSize || 52;
+  const wordLineHeight = settings.spritzMode ? 1.2 : 1.1; // SpritzWord usa 1.2, <p> usa 1.1
+  const spritzDotHeight = settings.spritzMode ? 8 + 12 : 0; // mt-2 + h-3 do indicador focal
+  /** Altura total do bloco fixo (palavra + dot) e offset até onde o balão começa */
+  const wordBlockHeight = wordFontSize * wordLineHeight + spritzDotHeight;
+  const belowWordOffset = wordBlockHeight / 2 + 16;
+  /** Linha guia Spritz — mesmo offset visual de antes (~0.42em acima do centro da palavra) */
+  const spritzGuideTop = (wordFontSize * wordLineHeight) / 2 - wordFontSize * 0.42;
+
+  // ---------------------------------------------------------------------------
   // Navegação de capítulo (botões "Ant." / "Próx.")
   // ---------------------------------------------------------------------------
   const chapters = getChapterNumbers(books, selection.book);
@@ -379,15 +393,6 @@ const ReaderScreen: React.FC<ReaderScreenProps> = ({
         className="flex-1 flex flex-col items-center justify-center relative"
         style={{ minHeight: '50vh' }}
       >
-        {/* Spritz guide line */}
-        {settings.spritzMode && (
-          <div className="absolute inset-x-0 flex justify-center pointer-events-none" style={{ top: '50%', transform: 'translateY(-60px)' }}>
-            <div
-              className="h-px w-64 bg-spritz-guide"
-            />
-          </div>
-        )}
-
         {completed ? (
           <div className="flex flex-col items-center gap-4 px-6 text-center">
             <div className="text-6xl">🎉</div>
@@ -419,77 +424,99 @@ const ReaderScreen: React.FC<ReaderScreenProps> = ({
           </div>
         ) : (
           <>
-            {/* Current Word */}
-            <div
-              className={`transition-opacity duration-75 ${wordAnimation ? 'opacity-100' : 'opacity-0'}`}
-            >
-              {rsvp.currentWord ? (
-                settings.spritzMode ? (
-                  <SpritzWord word={rsvp.currentWord.word} fontSize={settings.fontSize || 52} />
+            {/* Current Word — posição fixa no centro da área de leitura */}
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center px-6">
+              {/* Spritz guide line */}
+              {settings.spritzMode && (
+                <div
+                  className="absolute inset-x-0 flex justify-center pointer-events-none"
+                  style={{ top: `${spritzGuideTop}px` }}
+                >
+                  <div className="h-px w-64 bg-spritz-guide" />
+                </div>
+              )}
+
+              <div
+                className={`transition-opacity duration-75 ${wordAnimation ? 'opacity-100' : 'opacity-0'}`}
+              >
+                {rsvp.currentWord ? (
+                  settings.spritzMode ? (
+                    <SpritzWord word={rsvp.currentWord.word} fontSize={wordFontSize} />
+                  ) : (
+                    <p
+                      className="font-bold text-center px-6 text-ink"
+                      style={{ fontSize: `${wordFontSize}px`, lineHeight: 1.1 }}
+                    >
+                      {rsvp.currentWord.word}
+                    </p>
+                  )
                 ) : (
-                  <p
-                    className="font-bold text-center px-6 text-ink"
-                    style={{ fontSize: `${settings.fontSize || 52}px`, lineHeight: 1.1 }}
-                  >
-                    {rsvp.currentWord.word}
+                  <p className="text-lg text-ink-muted">
+                    Nenhuma palavra
                   </p>
-                )
-              ) : (
-                <p className="text-lg text-ink-muted">
-                  Nenhuma palavra
-                </p>
+                )}
+              </div>
+
+              {/* Spritz focal indicator */}
+              {settings.spritzMode && (
+                <div className="mt-2 flex justify-center">
+                  <div className="w-0.5 h-3 bg-spritz-dot rounded-full" />
+                </div>
               )}
             </div>
 
-            {/* Spritz focal indicator */}
-            {settings.spritzMode && (
-              <div className="mt-2 flex justify-center">
-                <div className="w-0.5 h-3 bg-spritz-dot rounded-full" />
-              </div>
-            )}
-
-            {/* Verse context preview (visible when paused) */}
-            {!rsvp.isPlaying && currentVerseData && (
-              <div
-                className="mx-6 mt-6 rounded-2xl p-4 max-w-sm transition-all duration-300 bg-surface-translucent border border-line shadow-lg"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <p className="text-xs font-bold mb-2 text-ink">
-                  {selection.book} {selection.chapter}:{currentVerse}
-                </p>
-                <p className="text-sm leading-relaxed text-ink">
-                  {currentVerseData.text}
-                </p>
-              </div>
-            )}
-
-            {/* Favorite current verse button */}
-            <button
-              onClick={(e) => { e.stopPropagation(); handleFavoriteToggle(); }}
-              className={`mt-5 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all active:scale-95 ${
-                isCurrentFavorite
-                  ? 'bg-inverse text-inverse-ink border-inverse'
-                  : 'bg-surface text-ink-muted border border-line-strong hover:border-line-hover shadow-sm'
-              } ${justFavorited ? 'scale-110' : ''}`}
+            {/* Conteúdo abaixo da palavra — cresce para baixo sem deslocá-la */}
+            <div
+              className="absolute inset-x-0 top-1/2 bottom-0 overflow-y-auto flex flex-col items-center"
+              style={{ paddingTop: `${belowWordOffset}px` }}
             >
-              <Heart
-                size={16}
-                fill={isCurrentFavorite ? 'currentColor' : 'none'}
-              />
-              {isCurrentFavorite ? 'Favoritado ♥' : `Favoritar v.${currentVerse}`}
-            </button>
+              {/* Verse context preview (visible when paused) */}
+              {!rsvp.isPlaying && currentVerseData && (
+                <div
+                  className="mx-6 rounded-2xl p-4 max-w-sm transition-all duration-300 bg-surface-translucent border border-line shadow-lg"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <p className="text-xs font-bold mb-2 text-ink">
+                    {selection.book} {selection.chapter}:{currentVerse}
+                  </p>
+                  <p className="text-sm leading-relaxed text-ink">
+                    {currentVerseData.text}
+                  </p>
+                </div>
+              )}
+
+              {/* Favorite current verse button */}
+              <button
+                onClick={(e) => { e.stopPropagation(); handleFavoriteToggle(); }}
+                className={`mt-5 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all active:scale-95 ${
+                  isCurrentFavorite
+                    ? 'bg-inverse text-inverse-ink border-inverse'
+                    : 'bg-surface text-ink-muted border border-line-strong hover:border-line-hover shadow-sm'
+                } ${justFavorited ? 'scale-110' : ''}`}
+              >
+                <Heart
+                  size={16}
+                  fill={isCurrentFavorite ? 'currentColor' : 'none'}
+                />
+                {isCurrentFavorite ? 'Favoritado ♥' : `Favoritar v.${currentVerse}`}
+              </button>
+            </div>
           </>
         )}
       </div>
 
-      {/* Progress Bar */}
-      <div className="px-4 bg-page">
-        <div className="h-1 rounded-full overflow-hidden bg-line">
-          <div
-            className="h-full rounded-full transition-all duration-300 bg-inverse"
-            style={{ width: `${rsvp.progress}%` }}
-          />
-        </div>
+      {/* Progress Bar — também funciona como seek slider */}
+      <div className="px-4 py-2 bg-page">
+        <input
+          type="range"
+          min={0}
+          max={Math.max(words.length - 1, 1)}
+          value={rsvp.currentIndex}
+          onChange={(e) => rsvp.seekTo(parseInt(e.target.value))}
+          className="w-full appearance-none cursor-pointer progress-seek"
+          style={{ '--progress': `${rsvp.progress}%` } as React.CSSProperties}
+          aria-label="Avançar ou retroceder na leitura"
+        />
         <div className="flex justify-between items-center mt-1 mb-2">
           <span className="text-xs text-ink-muted">
             {Math.round(rsvp.progress)}%
@@ -588,19 +615,6 @@ const ReaderScreen: React.FC<ReaderScreenProps> = ({
               <ChevronDown size={18} />
             </button>
           </div>
-        </div>
-
-        {/* Word Seek Slider */}
-        <div className="mt-4 px-2">
-          <input
-            type="range"
-            min={0}
-            max={Math.max(words.length - 1, 1)}
-            value={rsvp.currentIndex}
-            onChange={(e) => rsvp.seekTo(parseInt(e.target.value))}
-            className="w-full h-1.5 rounded-full appearance-none cursor-pointer seek-slider"
-            style={{ '--progress': `${rsvp.progress}%` } as React.CSSProperties}
-          />
         </div>
       </div>
 
