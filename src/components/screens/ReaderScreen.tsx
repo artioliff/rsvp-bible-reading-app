@@ -188,12 +188,12 @@ const ReaderScreen: React.FC<ReaderScreenProps> = ({
    * (grupo centralizado): o centro da palavra fica acima do centro da área
    * pela metade do conteúdo que ficava abaixo dela.
    */
-  const wordAnchorTop = `calc(50% - ${(favoriteButtonBlock + spritzDotHeight) / 2}px)`;
+  const wordAnchorTop = `calc(40% - ${(favoriteButtonBlock + spritzDotHeight) / 2}px)`;
   /** Altura total do bloco fixo (palavra + dot) e offset até onde o balão começa */
   const wordBlockHeight = wordFontSize * wordLineHeight + spritzDotHeight;
   const belowWordOffset = wordBlockHeight / 2 + 16;
   /** Linha guia Spritz — centro vertical da caixa da linha da palavra */
-  const spritzGuideTop = (wordFontSize * wordLineHeight) / 2;
+  const spritzGuideTop = (wordFontSize * wordLineHeight) / 1;
 
   // ---------------------------------------------------------------------------
   // Navegação de capítulo (botões "Ant." / "Próx.")
@@ -433,16 +433,13 @@ const ReaderScreen: React.FC<ReaderScreenProps> = ({
           <>
             {/* Current Word — posição fixa na área de leitura */}
             <div
-              className="absolute inset-x-0 -translate-y-1/2 flex flex-col items-center px-6"
+              className="absolute inset-x-0 -translate-y-1/2 flex flex-col items-center px-5"
               style={{ top: wordAnchorTop }}
             >
               {/* Spritz guide line — cruza o centro vertical da palavra */}
               {settings.spritzMode && (
-                <div
-                  className="absolute inset-x-0 -translate-y-1/2 flex justify-center pointer-events-none -z-10"
-                  style={{ top: `${spritzGuideTop}px` }}
-                >
-                  <div className="h-px w-64 bg-spritz-guide" />
+                <div className="absolute inset-x-0 -translate-y-1/2 flex justify-center pointer-events-none -z-10" style={{ top: `${spritzGuideTop}px` }} >
+                  <div className="h-px w-100 bg-spritz-guide" />
                 </div>
               )}
 
